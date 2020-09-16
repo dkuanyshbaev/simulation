@@ -16,30 +16,31 @@ fn main() -> SimulationResult<()> {
     println!("------------------");
 
     let settings = Settings::read()?;
-    let mut top_controller = build_controller(0, 12)?;
-    let mut bottom_controller = build_controller(1, 13)?;
+    // let mut top_controller = build_controller(0, 12)?;
+    // let mut bottom_controller = build_controller(1, 13)?;
 
-    run(settings, &mut top_controller, &mut bottom_controller)
+    // run(settings, &mut top_controller, &mut bottom_controller)
+    run(settings)
 }
 
 fn run(
     settings: Settings,
-    top_controller: &mut Controller,
-    bottom_controller: &mut Controller,
+    // top_controller: &mut Controller,
+    // bottom_controller: &mut Controller,
 ) -> SimulationResult<()> {
     let line1 = Line::random();
     println!("Line 1: {}", line1);
-    line1.show(1, top_controller);
+    // line1.show(1, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line2 = Line::random();
     println!("Line 2: {}", line2);
-    line2.show(2, top_controller);
+    // line2.show(2, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line3 = Line::random();
     println!("Line 3: {}", line3);
-    line3.show(3, top_controller);
+    // line3.show(3, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let top_trigram = Trigram {
@@ -53,17 +54,17 @@ fn run(
 
     let line4 = Line::random();
     println!("Line 4: {}", line4);
-    line4.show(4, top_controller);
+    // line4.show(4, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line5 = Line::random();
     println!("Line 5: {}", line5);
-    line5.show(5, top_controller);
+    // line5.show(5, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line6 = Line::random();
     println!("Line 6: {}", line6);
-    line6.show(6, top_controller);
+    // line6.show(6, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let bottom_trigram = Trigram {

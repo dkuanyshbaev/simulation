@@ -1,5 +1,5 @@
 use crate::settings::Settings;
-use crate::wires::{render_yang, render_yin};
+use crate::wires::*;
 use rand::distributions::{Distribution, Uniform};
 use rs_ws281x::Controller;
 use std::fmt;
@@ -93,55 +93,50 @@ impl fmt::Display for Trigram {
 }
 
 impl Trigram {
-    pub fn react(&self, settings: &Settings) {}
-
-    // pub fn react(&self, connection: &SqliteConnection) -> IOracleResult<()> {
-    //     let bindings = Binding::get(&connection)?;
-    //     match self {
-    //         Trigram {
-    //             top: Line::Yang,
-    //             middle: Line::Yang,
-    //             bottom: Line::Yang,
-    //         } => heaven_on(bindings.heaven_colour, bindings.heaven_pin as u8),
-    //         Trigram {
-    //             top: Line::Yin,
-    //             middle: Line::Yang,
-    //             bottom: Line::Yang,
-    //         } => cloud_on(bindings.cloud_colour, bindings.cloud_pin as u8),
-    //         Trigram {
-    //             top: Line::Yang,
-    //             middle: Line::Yin,
-    //             bottom: Line::Yang,
-    //         } => sun_on(bindings.sun_colour, bindings.sun_pin as u8),
-    //         Trigram {
-    //             top: Line::Yin,
-    //             middle: Line::Yin,
-    //             bottom: Line::Yang,
-    //         } => wind_on(bindings.wind_colour, bindings.wind_pin as u8),
-    //         Trigram {
-    //             top: Line::Yang,
-    //             middle: Line::Yang,
-    //             bottom: Line::Yin,
-    //         } => thunder_on(bindings.thunder_colour, bindings.thunder_sound),
-    //         Trigram {
-    //             top: Line::Yin,
-    //             middle: Line::Yang,
-    //             bottom: Line::Yin,
-    //         } => water_on(bindings.wind_colour, bindings.water_pin as u8),
-    //         Trigram {
-    //             top: Line::Yang,
-    //             middle: Line::Yin,
-    //             bottom: Line::Yin,
-    //         } => mountain_on(bindings.mountain_colour, bindings.mountain_sound),
-    //         Trigram {
-    //             top: Line::Yin,
-    //             middle: Line::Yin,
-    //             bottom: Line::Yin,
-    //         } => earth_on(bindings.earth_colour, bindings.earth_pin as u8),
-    //     }
-    //
-    //     Ok(())
-    // }
+    pub fn react(&self, settings: &Settings) {
+        match self {
+            Trigram {
+                top: Line::Yang,
+                middle: Line::Yang,
+                bottom: Line::Yang,
+            } => heaven_on(&settings.heaven_colour, settings.heaven_pin as u8),
+            Trigram {
+                top: Line::Yin,
+                middle: Line::Yang,
+                bottom: Line::Yang,
+            } => cloud_on(&settings.cloud_colour, settings.cloud_pin as u8),
+            Trigram {
+                top: Line::Yang,
+                middle: Line::Yin,
+                bottom: Line::Yang,
+            } => sun_on(&settings.sun_colour, settings.sun_pin as u8),
+            Trigram {
+                top: Line::Yin,
+                middle: Line::Yin,
+                bottom: Line::Yang,
+            } => wind_on(&settings.wind_colour, settings.wind_pin as u8),
+            Trigram {
+                top: Line::Yang,
+                middle: Line::Yang,
+                bottom: Line::Yin,
+            } => thunder_on(&settings.thunder_colour, &settings.thunder_sound),
+            Trigram {
+                top: Line::Yin,
+                middle: Line::Yang,
+                bottom: Line::Yin,
+            } => water_on(&settings.wind_colour, settings.water_pin as u8),
+            Trigram {
+                top: Line::Yang,
+                middle: Line::Yin,
+                bottom: Line::Yin,
+            } => mountain_on(&settings.mountain_colour, &settings.mountain_sound),
+            Trigram {
+                top: Line::Yin,
+                middle: Line::Yin,
+                bottom: Line::Yin,
+            } => earth_on(&settings.earth_colour, settings.earth_pin as u8),
+        }
+    }
 }
 
 pub struct Hexagram {
