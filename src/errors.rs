@@ -1,3 +1,6 @@
+use diesel::result::ConnectionError;
+use diesel::result::Error as DieselError;
+use std::convert::From;
 use std::{error, fmt};
 
 #[derive(Debug)]
@@ -25,6 +28,22 @@ impl error::Error for SimulationError {
             SimulationError::Unknown => "Unknown error",
             SimulationError::LED => "LED error",
             SimulationError::DB => "DB error",
+        }
+    }
+}
+
+impl From<ConnectionError> for SimulationError {
+    fn from(error: ConnectionError) -> Self {
+        match error {
+            _ => SimulationError::DB,
+        }
+    }
+}
+
+impl From<DieselError> for SimulationError {
+    fn from(error: DieselError) -> Self {
+        match error {
+            _ => SimulationError::DB,
         }
     }
 }

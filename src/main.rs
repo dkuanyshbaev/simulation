@@ -1,5 +1,12 @@
+#[macro_use]
+extern crate diesel;
+
+#[macro_use]
+extern crate serde_derive;
+
 mod errors;
 mod iching;
+mod schema;
 mod settings;
 mod wires;
 
