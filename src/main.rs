@@ -9,7 +9,7 @@ use rs_ws281x::Controller;
 use settings::Settings;
 use std::thread;
 use std::time::Duration;
-use wires::build_controller;
+use wires::{all_off, build_controller};
 
 fn main() -> SimulationResult<()> {
     println!("iOracle simulation");
@@ -81,6 +81,8 @@ fn run(
         bottom: bottom_trigram,
     };
     println!("Hexagram: {}", hexagram);
+
+    all_off(settings);
 
     Ok(())
 }

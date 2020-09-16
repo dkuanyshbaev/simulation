@@ -1,4 +1,5 @@
 use crate::errors::{SimulationError, SimulationResult};
+use crate::settings::Settings;
 use rppal::gpio::Gpio;
 use rs_ws281x::ChannelBuilder;
 use rs_ws281x::Controller;
@@ -141,4 +142,8 @@ pub fn earth_on(_colour: &String, _pin: u8) {
 
 pub fn earth_off(_pin: u8) {
     println!("--------> earth off");
+}
+
+pub fn all_off(_settings: Settings) {
+    println!("--------> all off");
 }
