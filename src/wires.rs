@@ -1,9 +1,9 @@
 use crate::errors::{SimulationError, SimulationResult};
+use rppal::gpio::Gpio;
 use rs_ws281x::ChannelBuilder;
 use rs_ws281x::Controller;
 use rs_ws281x::ControllerBuilder;
 use rs_ws281x::StripType;
-// use rppal::gpio::Gpio;
 
 const LEDS_IN_LINE: i32 = 144;
 
@@ -59,24 +59,24 @@ pub fn render_yang(line_num: i32, controller: &mut Controller) {
     };
 }
 
-// pub fn on(pin: u8) {
-//     if let Ok(gpio) = Gpio::new() {
-//         if let Ok(pin) = gpio.get(pin) {
-//             let mut pin = pin.into_output();
-//             pin.set_high();
-//         }
-//     }
-// }
-//
-// pub fn off(pin: u8) {
-//     if let Ok(gpio) = Gpio::new() {
-//         if let Ok(pin) = gpio.get(pin) {
-//             let mut pin = pin.into_output();
-//             pin.set_low();
-//         }
-//     }
-// }
-//
+pub fn pin_on(pin: u8) {
+    if let Ok(gpio) = Gpio::new() {
+        if let Ok(pin) = gpio.get(pin) {
+            let mut pin = pin.into_output();
+            pin.set_high();
+        }
+    }
+}
+
+pub fn pin_off(pin: u8) {
+    if let Ok(gpio) = Gpio::new() {
+        if let Ok(pin) = gpio.get(pin) {
+            let mut pin = pin.into_output();
+            pin.set_low();
+        }
+    }
+}
+
 // pub fn heaven_on(_colour: String, pin: u8) {
 //     println!("----> heaven on, pin {}", pin);
 //

@@ -1,4 +1,3 @@
-use crate::errors::SimulationResult;
 use crate::settings::Settings;
 use crate::wires::{render_yang, render_yin};
 use rand::distributions::{Distribution, Uniform};
@@ -94,9 +93,7 @@ impl fmt::Display for Trigram {
 }
 
 impl Trigram {
-    pub fn react(&self, settings: &Settings) -> SimulationResult<()> {
-        Ok(())
-    }
+    pub fn react(&self, settings: &Settings) {}
 
     // pub fn react(&self, connection: &SqliteConnection) -> IOracleResult<()> {
     //     let bindings = Binding::get(&connection)?;
@@ -154,16 +151,6 @@ pub struct Hexagram {
 
 impl fmt::Display for Hexagram {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // match *self {
-        //     Line::Yin => write!(f, "Yin, open line"),
-        //     Line::Yang => write!(f, "Yang, solid line"),
-        // }
         write!(f, "----")
     }
 }
-
-// impl Hexagram {
-//     pub fn name(&self, _connection: &SqliteConnection) -> IOracleResult<String> {
-//         Ok("?".to_string())
-//     }
-// }

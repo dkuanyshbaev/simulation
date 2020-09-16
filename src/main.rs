@@ -48,7 +48,7 @@ fn run(
         bottom: line3,
     };
     println!("Top Trigram: {}", top_trigram);
-    top_trigram.react(&settings)?;
+    top_trigram.react(&settings);
     thread::sleep(Duration::from_secs(1));
 
     let line4 = Line::random();
@@ -72,7 +72,7 @@ fn run(
         bottom: line6,
     };
     println!("Bottom Trigram: {}", bottom_trigram);
-    bottom_trigram.react(&settings)?;
+    bottom_trigram.react(&settings);
     thread::sleep(Duration::from_secs(1));
 
     let hexagram = Hexagram {
