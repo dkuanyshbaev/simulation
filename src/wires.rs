@@ -1,55 +1,64 @@
-// use crate::oracle::iching::Line;
+use crate::errors::{SimulationError, SimulationResult};
+use rs_ws281x::ChannelBuilder;
+use rs_ws281x::Controller;
+use rs_ws281x::ControllerBuilder;
+use rs_ws281x::StripType;
 // use rppal::gpio::Gpio;
-// // use std::error::Error;
-// use rs_ws281x::ChannelBuilder;
-// use rs_ws281x::ControllerBuilder;
-// use rs_ws281x::StripType;
-// use std::thread;
-// use std::time::Duration;
-//
-// const LEDS_IN_LINE: i32 = 144;
-//
-// pub fn yin(line_num: u8) {
-//     let controller = ControllerBuilder::new()
-//         .freq(800_000)
-//         .dma(10)
-//         .channel(
-//             0,
-//             ChannelBuilder::new()
-//                 .pin(12)
-//                 .count(3 * LEDS_IN_LINE)
-//                 .strip_type(StripType::Ws2811Rgb)
-//                 .brightness(255)
-//                 .build(),
-//         )
-//         .build();
-//
-//     if let Ok(mut c) = controller {
-//         let leds = c.leds_mut(0);
-//
-//         for line in 0..3 {
-//             for num in 0..LEDS_IN_LINE {
-//                 leds[num as usize] = [255, 255, 255, 0];
-//             }
-//         }
-//
-//         match c.render() {
-//             Ok(_) => println!("ok!"),
-//             Err(e) => println!("{:?}", e),
-//         };
-//     }
-//
-//     // thread::sleep(Duration::from_secs(5));
-//
-//     println!("yin");
-//     println!("light line number {}", line_num);
-// }
-//
-// pub fn yang(line_num: u8) {
-//     println!("yang");
-//     println!("light line number {}", line_num);
-// }
-//
+
+const LEDS_IN_LINE: i32 = 144;
+
+pub fn build_controller(channel: usize, pin: i32) -> SimulationResult<Controller> {
+    match ControllerBuilder::new()
+        .freq(800_000)
+        .dma(10)
+        .channel(
+            channel,
+            ChannelBuilder::new()
+                .pin(pin)
+                .count(3 * LEDS_IN_LINE)
+                .strip_type(StripType::Ws2811Rgb)
+                .brightness(255)
+                .build(),
+        )
+        .build()
+    {
+        Ok(controller) => Ok(controller),
+        Err(_) => Err(SimulationError::LED),
+    }
+}
+
+pub fn render_yin(line_num: i32, controller: &mut Controller) {
+    let leds = controller.leds_mut(0);
+
+    let part = LEDS_IN_LINE / 3;
+    let position = LEDS_IN_LINE * line_num - 1;
+    for num in position..position + LEDS_IN_LINE {
+        if num > position + part && num < position + part * 2 {
+            leds[num as usize] = [0, 0, 0, 0];
+        }
+        leds[num as usize] = [255, 255, 255, 0];
+    }
+
+    match controller.render() {
+        Ok(_) => println!("yin"),
+        Err(e) => println!("{:?}", e),
+    };
+}
+
+pub fn render_yang(line_num: i32, controller: &mut Controller) {
+    let leds = controller.leds_mut(0);
+
+    let position = LEDS_IN_LINE * line_num - 1;
+    for num in position..position + LEDS_IN_LINE {
+        leds[num as usize] = [255, 255, 255, 0];
+    }
+
+    match controller.render() {
+        Ok(_) => println!("yang"),
+        Err(e) => println!("{:?}", e),
+    };
+}
+
 // pub fn on(pin: u8) {
 //     if let Ok(gpio) = Gpio::new() {
 //         if let Ok(pin) = gpio.get(pin) {

@@ -1,3 +1,4 @@
+// use crate::errors::{SimulationError, SimulationResult};
 use crate::errors::SimulationResult;
 
 pub struct Settings {
@@ -29,6 +30,7 @@ impl Settings {
             heaven_colour: "green".to_string(),
         };
 
+        // Err(SimulationError::DB)
         Ok(settings)
     }
 

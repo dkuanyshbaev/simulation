@@ -5,35 +5,41 @@ mod wires;
 
 use errors::SimulationResult;
 use iching::{Hexagram, Line, Trigram};
+use rs_ws281x::Controller;
 use settings::Settings;
+use std::thread;
 use std::time::Duration;
-use std::{process, thread};
+use wires::build_controller;
 
-fn main() {
+fn main() -> SimulationResult<()> {
     println!("iOracle simulation");
     println!("------------------");
 
-    let settings = Settings::read().unwrap_or_else(|_| {
-        println!("Can't read settings from db!");
-        process::exit(1);
-    });
+    let settings = Settings::read()?;
+    let mut top_controller = build_controller(0, 12)?;
+    let mut bottom_controller = build_controller(1, 13)?;
 
-    if let Err(error) = run(settings) {
-        println!("Error: {:?}!", error);
-    }
+    run(settings, &mut top_controller, &mut bottom_controller)
 }
 
-fn run(settings: Settings) -> SimulationResult<()> {
+fn run(
+    settings: Settings,
+    top_controller: &mut Controller,
+    bottom_controller: &mut Controller,
+) -> SimulationResult<()> {
     let line1 = Line::random();
     println!("Line 1: {}", line1);
+    line1.show(1, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line2 = Line::random();
     println!("Line 2: {}", line2);
+    line2.show(2, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line3 = Line::random();
     println!("Line 3: {}", line3);
+    line3.show(3, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let top_trigram = Trigram {
@@ -47,14 +53,17 @@ fn run(settings: Settings) -> SimulationResult<()> {
 
     let line4 = Line::random();
     println!("Line 4: {}", line4);
+    line4.show(4, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line5 = Line::random();
     println!("Line 5: {}", line5);
+    line5.show(5, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line6 = Line::random();
     println!("Line 6: {}", line6);
+    line6.show(6, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let bottom_trigram = Trigram {

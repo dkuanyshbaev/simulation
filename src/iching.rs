@@ -1,6 +1,8 @@
 use crate::errors::SimulationResult;
 use crate::settings::Settings;
+use crate::wires::{render_yang, render_yin};
 use rand::distributions::{Distribution, Uniform};
+use rs_ws281x::Controller;
 use std::fmt;
 
 pub enum Line {
@@ -27,25 +29,15 @@ impl Line {
             Line::Yang
         };
 
-        // line.on(line_num);
-
         line
     }
 
-    // pub fn on(&self, line_num: u8) {
-    //     match self {
-    //         Line::Yin => yin(line_num),
-    //         Line::Yang => yang(line_num),
-    //     }
-    // }
-
-    // pub fn from_string(line: &String) -> Line {
-    //     if *line == "Yin".to_string() {
-    //         Line::Yin
-    //     } else {
-    //         Line::Yang
-    //     }
-    // }
+    pub fn show(&self, line_num: i32, controller: &mut Controller) {
+        match self {
+            Line::Yin => render_yin(line_num, controller),
+            Line::Yang => render_yang(line_num, controller),
+        }
+    }
 }
 
 pub struct Trigram {
