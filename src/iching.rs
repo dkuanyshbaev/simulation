@@ -119,7 +119,7 @@ impl Trigram {
                 top: Line::Yang,
                 middle: Line::Yang,
                 bottom: Line::Yin,
-            } => thunder_on(&settings.thunder_colour, &settings.thunder_sound),
+            } => thunder_on(&settings.thunder_colour),
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yang,
@@ -129,12 +129,12 @@ impl Trigram {
                 top: Line::Yang,
                 middle: Line::Yin,
                 bottom: Line::Yin,
-            } => mountain_on(&settings.mountain_colour, &settings.mountain_sound),
+            } => mountain_on(&settings.mountain_colour, settings.mountain_pin as u8),
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yin,
                 bottom: Line::Yin,
-            } => earth_on(&settings.earth_colour, settings.earth_pin as u8),
+            } => earth_on(&settings.earth_colour),
         }
     }
 }

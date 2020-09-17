@@ -112,7 +112,7 @@ pub fn wind_off(pin: u8) {
     pin_off(pin);
 }
 
-pub fn thunder_on(_colour: &String, _sound: &String) {
+pub fn thunder_on(_colour: &String) {
     println!("--------> play thunder sound");
 }
 
@@ -128,7 +128,7 @@ pub fn water_off(pin: u8) {
     pin_off(pin);
 }
 
-pub fn mountain_on(_colour: &String, _sound: &String) {
+pub fn mountain_on(_colour: &String, _pin: u8) {
     println!("--------> play mountain sound");
 }
 
@@ -136,13 +136,13 @@ pub fn mountain_off(_sound: &String) {
     println!("--------> stop mountain sound");
 }
 
-pub fn earth_on(_colour: &String, _pin: u8) {
+pub fn earth_on(_colour: &String) {
     println!("--------> earth on");
 }
 
-pub fn earth_off(_pin: u8) {
-    println!("--------> earth off");
-}
+// pub fn earth_off(_pin: u8) {
+//     println!("--------> earth off");
+// }
 
 pub fn all_off(_settings: Settings) {
     println!("--------> all off");
