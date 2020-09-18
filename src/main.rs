@@ -16,7 +16,7 @@ use rs_ws281x::Controller;
 use settings::Settings;
 use std::thread;
 use std::time::Duration;
-use wires::{all_off, build_controller};
+use wires::{build_controller, rest};
 
 fn main() -> SimulationResult<()> {
     println!("iOracle simulation");
@@ -38,6 +38,7 @@ fn run(
     let line1 = Line::random();
     println!("Line 1: {}", line1);
     // line1.show(1, top_controller);
+    // line1.show(1, top_controller, settings.default_colour);
     thread::sleep(Duration::from_secs(1));
 
     let line2 = Line::random();
@@ -89,7 +90,7 @@ fn run(
     };
     println!("Hexagram: {}", hexagram);
 
-    all_off(settings);
+    rest(settings);
 
     Ok(())
 }

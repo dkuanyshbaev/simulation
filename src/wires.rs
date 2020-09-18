@@ -28,8 +28,9 @@ pub fn build_controller(channel: usize, pin: i32) -> SimulationResult<Controller
     }
 }
 
-pub fn render_yin(line_num: i32, controller: &mut Controller) {
+pub fn render_yin(line_num: i32, controller: &mut Controller, colour: &String) {
     let leds = controller.leds_mut(0);
+    let (a, b, c) = parse_colour(colour);
 
     let part = LEDS_IN_LINE / 3;
     let position = LEDS_IN_LINE * line_num - 1;
@@ -37,7 +38,7 @@ pub fn render_yin(line_num: i32, controller: &mut Controller) {
         if num > position + part && num < position + part * 2 {
             leds[num as usize] = [0, 0, 0, 0];
         }
-        leds[num as usize] = [255, 255, 255, 0];
+        leds[num as usize] = [a, b, c, 0];
     }
 
     match controller.render() {
@@ -46,12 +47,13 @@ pub fn render_yin(line_num: i32, controller: &mut Controller) {
     };
 }
 
-pub fn render_yang(line_num: i32, controller: &mut Controller) {
+pub fn render_yang(line_num: i32, controller: &mut Controller, colour: &String) {
     let leds = controller.leds_mut(0);
+    let (a, b, c) = parse_colour(colour);
 
     let position = LEDS_IN_LINE * line_num - 1;
     for num in position..position + LEDS_IN_LINE {
-        leds[num as usize] = [255, 255, 255, 0];
+        leds[num as usize] = [a, b, c, 0];
     }
 
     match controller.render() {
@@ -144,6 +146,29 @@ pub fn earth_on(_colour: &String) {
 //     println!("--------> earth off");
 // }
 
-pub fn all_off(_settings: Settings) {
+pub fn rest(_settings: Settings) {
     println!("--------> all off");
+}
+
+fn parse_colour(colour: &String) -> (u8, u8, u8) {
+    let mut str_buff = colour.clone();
+    let mut rgb = (255, 255, 255);
+
+    // colour string format:  "rgb(108, 73, 211)"
+    let mut str_buff: String = str_buff.drain(4..).collect();
+    str_buff.pop();
+    let mut str_parts = str_buff.split(", ");
+    let parts: Vec<&str> = str_parts.collect();
+
+    if let Ok(part) = parts[0].parse::<u8>() {
+        rgb.0 = part;
+    }
+    if let Ok(part) = parts[1].parse::<u8>() {
+        rgb.1 = part;
+    }
+    if let Ok(part) = parts[2].parse::<u8>() {
+        rgb.2 = part;
+    }
+
+    rgb
 }

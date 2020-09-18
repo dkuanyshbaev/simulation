@@ -31,10 +31,10 @@ impl Line {
         line
     }
 
-    pub fn show(&self, line_num: i32, controller: &mut Controller) {
+    pub fn show(&self, line_num: i32, controller: &mut Controller, colour: &String) {
         match self {
-            Line::Yin => render_yin(line_num, controller),
-            Line::Yang => render_yang(line_num, controller),
+            Line::Yin => render_yin(line_num, controller, colour),
+            Line::Yang => render_yang(line_num, controller, colour),
         }
     }
 }
