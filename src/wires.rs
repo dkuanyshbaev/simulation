@@ -5,6 +5,7 @@ use rs_ws281x::ChannelBuilder;
 use rs_ws281x::Controller;
 use rs_ws281x::ControllerBuilder;
 use rs_ws281x::StripType;
+use std::process::Command;
 
 const LEDS_IN_LINE: i32 = 144;
 
@@ -107,8 +108,17 @@ pub fn reset(settings: &Settings, controller: &mut Controller) {
     };
 }
 
-pub fn play_sound(_file_name: String) {
-    // play sound
+pub fn play_sound(file_name: String) {
+    println!("--------> play: {}", file_name);
+
+    let command = "omxplayer -o local --no-keys example.mp3 &";
+    if let Ok(output) = Command::new(command).output() {
+        if !output.status.success() {
+            println!("exectution error");
+        } else {
+            println!("all good");
+        }
+    }
 }
 
 fn parse_colour(colour: &String) -> (u8, u8, u8) {
