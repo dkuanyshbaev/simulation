@@ -82,69 +82,38 @@ pub fn pin_off(pin: u8) {
     }
 }
 
-pub fn heaven_on(_colour: &String, pin: u8) {
+pub fn heaven_on(pin: u8) {
     pin_on(pin);
 }
 
-pub fn heaven_off(pin: u8) {
-    pin_off(pin);
-}
-
-pub fn cloud_on(_colour: &String, pin: u8) {
+pub fn cloud_on(pin: u8) {
     pin_on(pin);
 }
 
-pub fn cloud_off(pin: u8) {
-    pin_off(pin);
-}
-
-pub fn sun_on(_colour: &String, pin: u8) {
+pub fn sun_on(pin: u8) {
     pin_on(pin);
 }
 
-pub fn sun_off(pin: u8) {
-    pin_off(pin);
-}
-
-pub fn wind_on(_colour: &String, pin: u8) {
+pub fn wind_on(pin: u8) {
     pin_on(pin);
 }
 
-pub fn wind_off(pin: u8) {
-    pin_off(pin);
-}
-
-pub fn thunder_on(_colour: &String) {
+pub fn thunder_on() {
     println!("--------> play thunder sound");
 }
 
-pub fn thunder_off(_sound: &String) {
-    println!("--------> stop thunder sound");
-}
-
-pub fn water_on(_colour: &String, pin: u8) {
+pub fn water_on(pin: u8) {
     pin_on(pin);
 }
 
-pub fn water_off(pin: u8) {
-    pin_off(pin);
-}
-
-pub fn mountain_on(_colour: &String, _pin: u8) {
+pub fn mountain_on(pin: u8) {
     println!("--------> play mountain sound");
+    pin_on(pin);
 }
 
-pub fn mountain_off(_sound: &String) {
-    println!("--------> stop mountain sound");
-}
-
-pub fn earth_on(_colour: &String) {
+pub fn earth_on() {
     println!("--------> earth on");
 }
-
-// pub fn earth_off(_pin: u8) {
-//     println!("--------> earth off");
-// }
 
 pub fn rest(_settings: Settings) {
     println!("--------> all off");
@@ -157,7 +126,7 @@ fn parse_colour(colour: &String) -> (u8, u8, u8) {
     // colour string format:  "rgb(108, 73, 211)"
     let mut str_buff: String = str_buff.drain(4..).collect();
     str_buff.pop();
-    let mut str_parts = str_buff.split(", ");
+    let str_parts = str_buff.split(", ");
     let parts: Vec<&str> = str_parts.collect();
 
     if let Ok(part) = parts[0].parse::<u8>() {

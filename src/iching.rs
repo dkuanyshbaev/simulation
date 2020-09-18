@@ -31,7 +31,7 @@ impl Line {
         line
     }
 
-    pub fn show(&self, line_num: i32, controller: &mut Controller, colour: &String) {
+    pub fn render(&self, line_num: i32, controller: &mut Controller, colour: &String) {
         match self {
             Line::Yin => render_yin(line_num, controller, colour),
             Line::Yang => render_yang(line_num, controller, colour),
@@ -93,48 +93,88 @@ impl fmt::Display for Trigram {
 }
 
 impl Trigram {
-    pub fn react(&self, settings: &Settings) {
+    pub fn react(&self, settings: &Settings, controller: &mut Controller) {
         match self {
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yang,
                 bottom: Line::Yang,
-            } => heaven_on(&settings.heaven_colour, settings.heaven_pin as u8),
+            } => {
+                heaven_on(settings.heaven_pin as u8);
+                render_yang(1, controller, &settings.heaven_colour);
+                render_yang(2, controller, &settings.heaven_colour);
+                render_yang(3, controller, &settings.heaven_colour);
+            }
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yang,
                 bottom: Line::Yang,
-            } => cloud_on(&settings.cloud_colour, settings.cloud_pin as u8),
+            } => {
+                cloud_on(settings.cloud_pin as u8);
+                render_yin(1, controller, &settings.cloud_colour);
+                render_yang(2, controller, &settings.cloud_colour);
+                render_yang(3, controller, &settings.cloud_colour);
+            }
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yin,
                 bottom: Line::Yang,
-            } => sun_on(&settings.sun_colour, settings.sun_pin as u8),
+            } => {
+                sun_on(settings.sun_pin as u8);
+                render_yang(1, controller, &settings.sun_colour);
+                render_yin(2, controller, &settings.sun_colour);
+                render_yang(3, controller, &settings.sun_colour);
+            }
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yin,
                 bottom: Line::Yang,
-            } => wind_on(&settings.wind_colour, settings.wind_pin as u8),
+            } => {
+                wind_on(settings.wind_pin as u8);
+                render_yin(1, controller, &settings.wind_colour);
+                render_yin(2, controller, &settings.wind_colour);
+                render_yang(3, controller, &settings.wind_colour);
+            }
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yang,
                 bottom: Line::Yin,
-            } => thunder_on(&settings.thunder_colour),
+            } => {
+                thunder_on();
+                render_yang(1, controller, &settings.thunder_colour);
+                render_yang(2, controller, &settings.thunder_colour);
+                render_yin(3, controller, &settings.thunder_colour);
+            }
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yang,
                 bottom: Line::Yin,
-            } => water_on(&settings.wind_colour, settings.water_pin as u8),
+            } => {
+                water_on(settings.water_pin as u8);
+                render_yin(1, controller, &settings.water_colour);
+                render_yang(2, controller, &settings.water_colour);
+                render_yin(3, controller, &settings.water_colour);
+            }
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yin,
                 bottom: Line::Yin,
-            } => mountain_on(&settings.mountain_colour, settings.mountain_pin as u8),
+            } => {
+                mountain_on(settings.mountain_pin as u8);
+                render_yang(1, controller, &settings.mountain_colour);
+                render_yin(2, controller, &settings.mountain_colour);
+                render_yin(3, controller, &settings.mountain_colour);
+            }
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yin,
                 bottom: Line::Yin,
-            } => earth_on(&settings.earth_colour),
+            } => {
+                earth_on();
+                render_yin(1, controller, &settings.earth_colour);
+                render_yin(2, controller, &settings.earth_colour);
+                render_yin(3, controller, &settings.earth_colour);
+            }
         }
     }
 }
