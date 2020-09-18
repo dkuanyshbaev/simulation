@@ -93,84 +93,92 @@ impl fmt::Display for Trigram {
 }
 
 impl Trigram {
-    pub fn react(&self, settings: &Settings, controller: &mut Controller) {
+    pub fn render(&self, settings: &Settings, controller: &mut Controller) {
         match self {
+            // Heaven
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yang,
                 bottom: Line::Yang,
             } => {
-                heaven_on(settings.heaven_pin as u8);
+                pin_on(settings.heaven_pin as u8);
                 render_yang(1, controller, &settings.heaven_colour);
                 render_yang(2, controller, &settings.heaven_colour);
                 render_yang(3, controller, &settings.heaven_colour);
             }
+            // Cloud
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yang,
                 bottom: Line::Yang,
             } => {
-                cloud_on(settings.cloud_pin as u8);
+                pin_on(settings.cloud_pin as u8);
                 render_yin(1, controller, &settings.cloud_colour);
                 render_yang(2, controller, &settings.cloud_colour);
                 render_yang(3, controller, &settings.cloud_colour);
             }
+            // Sun
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yin,
                 bottom: Line::Yang,
             } => {
-                sun_on(settings.sun_pin as u8);
+                pin_on(settings.sun_pin as u8);
                 render_yang(1, controller, &settings.sun_colour);
                 render_yin(2, controller, &settings.sun_colour);
                 render_yang(3, controller, &settings.sun_colour);
             }
+            // Wind
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yin,
                 bottom: Line::Yang,
             } => {
-                wind_on(settings.wind_pin as u8);
+                pin_on(settings.wind_pin as u8);
                 render_yin(1, controller, &settings.wind_colour);
                 render_yin(2, controller, &settings.wind_colour);
                 render_yang(3, controller, &settings.wind_colour);
             }
+            // Thunder
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yang,
                 bottom: Line::Yin,
             } => {
-                thunder_on();
+                play_sound("thunder.wav".to_string());
                 render_yang(1, controller, &settings.thunder_colour);
                 render_yang(2, controller, &settings.thunder_colour);
                 render_yin(3, controller, &settings.thunder_colour);
             }
+            // Water
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yang,
                 bottom: Line::Yin,
             } => {
-                water_on(settings.water_pin as u8);
+                pin_on(settings.water_pin as u8);
                 render_yin(1, controller, &settings.water_colour);
                 render_yang(2, controller, &settings.water_colour);
                 render_yin(3, controller, &settings.water_colour);
             }
+            // Mountain
             Trigram {
                 top: Line::Yang,
                 middle: Line::Yin,
                 bottom: Line::Yin,
             } => {
-                mountain_on(settings.mountain_pin as u8);
+                pin_on(settings.mountain_pin as u8);
+                play_sound("mountain.wav".to_string());
                 render_yang(1, controller, &settings.mountain_colour);
                 render_yin(2, controller, &settings.mountain_colour);
                 render_yin(3, controller, &settings.mountain_colour);
             }
+            // Earth
             Trigram {
                 top: Line::Yin,
                 middle: Line::Yin,
                 bottom: Line::Yin,
             } => {
-                earth_on();
                 render_yin(1, controller, &settings.earth_colour);
                 render_yin(2, controller, &settings.earth_colour);
                 render_yin(3, controller, &settings.earth_colour);

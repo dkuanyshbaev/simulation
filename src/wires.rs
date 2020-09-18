@@ -82,41 +82,33 @@ pub fn pin_off(pin: u8) {
     }
 }
 
-pub fn heaven_on(pin: u8) {
-    pin_on(pin);
+pub fn reset(settings: &Settings, controller: &mut Controller) {
+    println!("--------> reset all");
+
+    // all pins off
+    pin_off(settings.heaven_pin as u8);
+    pin_off(settings.cloud_pin as u8);
+    pin_off(settings.sun_pin as u8);
+    pin_off(settings.wind_pin as u8);
+    pin_off(settings.water_pin as u8);
+    pin_off(settings.mountain_pin as u8);
+
+    // all leds to resting_colour
+    let leds = controller.leds_mut(0);
+    let (a, b, c) = parse_colour(&settings.resting_colour);
+
+    for num in 0..LEDS_IN_LINE * 3 {
+        leds[num as usize] = [a, b, c, 0];
+    }
+
+    match controller.render() {
+        Ok(_) => println!("reset"),
+        Err(e) => println!("{:?}", e),
+    };
 }
 
-pub fn cloud_on(pin: u8) {
-    pin_on(pin);
-}
-
-pub fn sun_on(pin: u8) {
-    pin_on(pin);
-}
-
-pub fn wind_on(pin: u8) {
-    pin_on(pin);
-}
-
-pub fn thunder_on() {
-    println!("--------> play thunder sound");
-}
-
-pub fn water_on(pin: u8) {
-    pin_on(pin);
-}
-
-pub fn mountain_on(pin: u8) {
-    println!("--------> play mountain sound");
-    pin_on(pin);
-}
-
-pub fn earth_on() {
-    println!("--------> earth on");
-}
-
-pub fn rest(_settings: Settings) {
-    println!("--------> all off");
+pub fn play_sound(_file_name: String) {
+    // play sound
 }
 
 fn parse_colour(colour: &String) -> (u8, u8, u8) {

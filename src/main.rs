@@ -16,7 +16,7 @@ use rs_ws281x::Controller;
 use settings::Settings;
 use std::thread;
 use std::time::Duration;
-use wires::{build_controller, rest};
+use wires::{build_controller, reset};
 
 fn main() -> SimulationResult<()> {
     println!("iOracle simulation");
@@ -27,7 +27,6 @@ fn main() -> SimulationResult<()> {
     let mut bottom_controller = build_controller(1, 13)?;
 
     run(settings, &mut top_controller, &mut bottom_controller)
-    // run(settings)
 }
 
 fn run(
@@ -56,7 +55,7 @@ fn run(
         bottom: line3,
     };
     println!("Top Trigram: {}", top_trigram);
-    top_trigram.react(&settings, top_controller);
+    top_trigram.render(&settings, top_controller);
     thread::sleep(Duration::from_secs(1));
 
     let line4 = Line::random();
@@ -80,7 +79,7 @@ fn run(
         bottom: line6,
     };
     println!("Bottom Trigram: {}", bottom_trigram);
-    bottom_trigram.react(&settings, bottom_controller);
+    bottom_trigram.render(&settings, bottom_controller);
     thread::sleep(Duration::from_secs(1));
 
     let hexagram = Hexagram {
@@ -89,7 +88,8 @@ fn run(
     };
     println!("Hexagram: {}", hexagram);
 
-    rest(settings);
+    reset(&settings, top_controller);
+    reset(&settings, bottom_controller);
 
     Ok(())
 }
