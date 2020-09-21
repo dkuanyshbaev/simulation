@@ -38,8 +38,9 @@ pub fn render_yin(line_num: i32, controller: &mut Controller, colour: &String) {
     for num in position..position + LEDS_IN_LINE {
         if num > position + part && num < position + part * 2 {
             leds[num as usize] = [0, 0, 0, 0];
+        } else {
+            leds[num as usize] = [a, b, c, 0];
         }
-        leds[num as usize] = [a, b, c, 0];
     }
 
     match controller.render() {
