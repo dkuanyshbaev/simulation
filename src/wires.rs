@@ -105,11 +105,14 @@ pub fn reset(settings: &Settings, controller: &mut Controller) {
     pin_off(settings.mountain_pin as u8);
 
     // all leds to resting_colour
-    let leds = controller.leds_mut(0);
     let (a, b, c) = parse_colour(&settings.resting_colour);
-
-    for num in 0..LEDS_IN_LINE * 3 {
-        leds[num as usize] = [a, b, c, 0];
+    let yao_leds = controller.leds_mut(0);
+    for num in 0..yao_leds.len() - 1 {
+        yao_leds[num as usize] = [a, b, c, 0];
+    }
+    let li_leds = controller.leds_mut(1);
+    for num in 0..li_leds.len() - 1 {
+        li_leds[num as usize] = [a, b, c, 0];
     }
 
     match controller.render() {
