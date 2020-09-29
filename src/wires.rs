@@ -9,15 +9,24 @@ use std::process::Command;
 
 const LEDS_IN_LINE: i32 = 144;
 
-pub fn build_controller(channel: usize, pin: i32) -> SimulationResult<Controller> {
+pub fn build_controller() -> SimulationResult<Controller> {
     match ControllerBuilder::new()
         .freq(800_000)
         .dma(10)
         .channel(
-            channel,
+            0,
             ChannelBuilder::new()
-                .pin(pin)
+                .pin(18)
                 .count(3 * LEDS_IN_LINE)
+                .strip_type(StripType::Ws2811Rgb)
+                .brightness(255)
+                .build(),
+        )
+        .channel(
+            1,
+            ChannelBuilder::new()
+                .pin(19)
+                .count(2 * LEDS_IN_LINE)
                 .strip_type(StripType::Ws2811Rgb)
                 .brightness(255)
                 .build(),
@@ -34,7 +43,7 @@ pub fn render_yin(line_num: i32, controller: &mut Controller, colour: &String) {
     let (a, b, c) = parse_colour(colour);
 
     let part = LEDS_IN_LINE / 3;
-    let position = LEDS_IN_LINE * line_num - 1;
+    let position = LEDS_IN_LINE * (line_num - 1);
     for num in position..position + LEDS_IN_LINE {
         if num > position + part && num < position + part * 2 {
             leds[num as usize] = [0, 0, 0, 0];
@@ -53,7 +62,7 @@ pub fn render_yang(line_num: i32, controller: &mut Controller, colour: &String) 
     let leds = controller.leds_mut(0);
     let (a, b, c) = parse_colour(colour);
 
-    let position = LEDS_IN_LINE * line_num - 1;
+    let position = LEDS_IN_LINE * (line_num - 1);
     for num in position..position + LEDS_IN_LINE {
         leds[num as usize] = [a, b, c, 0];
     }
